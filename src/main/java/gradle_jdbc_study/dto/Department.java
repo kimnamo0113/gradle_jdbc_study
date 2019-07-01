@@ -34,7 +34,7 @@ public class Department {
 	}
 	@Override
 	public String toString() {
-		return String.format("Department [deptNo=%s, deptName=%s, floor=%s]", deptNo, deptName, floor);
+		return String.format("%s(%s)",deptName,deptNo);
 	}
 	@Override
 	public int hashCode() {
@@ -55,6 +55,9 @@ public class Department {
 		if (deptNo != other.deptNo)
 			return false;
 		return true;
+	}
+	public Object[] toArray() {
+		return new Object[] {deptNo,deptName,floor};
 	}
 	
 	

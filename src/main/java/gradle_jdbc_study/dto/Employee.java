@@ -1,7 +1,5 @@
 package gradle_jdbc_study.dto;
 
-import java.util.Arrays;
-
 public class Employee {
 	private int empNo;
 	private String empName;
@@ -68,8 +66,7 @@ public class Employee {
 	}
 	@Override
 	public String toString() {
-		return String.format("Employee [empNo=%s, empName=%s, title=%s, manager=%s, salary=%s, dno=%s, pic=%s]", empNo,
-				empName, title, manager, salary, dno, Arrays.toString(pic));
+		return String.format("%s(%s)",empName, empNo);
 	}
 	@Override
 	public int hashCode() {
@@ -91,6 +88,11 @@ public class Employee {
 			return false;
 		return true;
 	}
+	
+	public Object[] toArray() {
+		return new Object[] { empNo, empName, title,manager.getEmpName()+"("+ manager.getEmpNo()+")", salary, dno.getDeptName()+"("+dno.getDeptNo()+")" };
+	}
+	
 	
 	
 }
