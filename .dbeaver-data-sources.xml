@@ -3,5 +3,8 @@
 	<data-source id="mysql5-16bac9bedef-247e1fbd6a67e622" provider="mysql" driver="mysql5" name="MySQL - mysql" save-password="true" read-only="false">
 		<connection host="localhost" port="3306" server="" database="mysql" url="jdbc:mysql://localhost:3306/mysql" user="root" password="AQsJNFNMSwJl8w==" home="C:\Program Files\MySQL\MySQL Server 5.7" type="dev"/>
 	</data-source>
+	<data-source id="mysql5-16bacb3b9f8-230b5deb7485dd0f" provider="mysql" driver="mysql5" name="MySQL - ncs_erp" save-password="true" read-only="false">
+		<connection host="localhost" port="3306" server="" database="ncs_erp" url="jdbc:mysql://localhost:3306/ncs_erp" user="user_ncs_erp" password="AQsJNFNMSwJl8w==" home="C:\Program Files\MySQL\MySQL Server 5.7" type="dev"/>
+	</data-source>
 	<filters/>
 </data-sources>
