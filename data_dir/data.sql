@@ -19,4 +19,3 @@ INSERT INTO employee (empno,empname,title,manager,salary,dno) values
 (2106,'김창섭',4,1003,2500000,2),
 (1365,'김상원',5,3426,1500000,1),
 (3427,'최종철',5,3011,1500000,2);
-;

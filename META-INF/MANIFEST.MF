@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: gradle_jdbc_study
+Bundle-SymbolicName: gradle_jdbc_study
+Bundle-Version: 1.0.0.qualifier
+Export-Package: gradle_jdbc_study,
+ gradle_jdbc_study.dao,
+ gradle_jdbc_study.daoImpl,
+ gradle_jdbc_study.dto,
+ gradle_jdbc_study.jdbc,
+ gradle_jdbc_study.ui,
+ gradle_jdbc_study.ui.content,
+ gradle_jdbc_study.ui.list

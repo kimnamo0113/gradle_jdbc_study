@@ -1,9 +1,8 @@
-package gradle_jdbc_study;
+package exam;
 
 import java.awt.EventQueue;
 
 import exam.ui.ErpMainPageUI;
-import gradle_jdbc_study.ui.ErpManagementUI;
 
 public class ErpMain {
 
