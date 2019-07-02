@@ -6,7 +6,7 @@ CREATE SCHEMA ncs_erp;
 
 -- 부서
 CREATE TABLE ncs_erp.department (
-	deptno   INT(11)  NOT NULL COMMENT '부서번호', -- 부서번호
+	depno    INT(11)  NOT NULL COMMENT '부서번호', -- 부서번호
 	deptname CHAR(20) NOT NULL COMMENT '부서명', -- 부서명
 	floor    INT(11)  NULL     DEFAULT 1 COMMENT '위치' -- 위치
 )
@@ -16,17 +16,19 @@ COMMENT '부서';
 ALTER TABLE ncs_erp.department
 	ADD CONSTRAINT
 		PRIMARY KEY (
-			deptno -- 부서번호
+			depno -- 부서번호
 		);
 
 -- 사원
 CREATE TABLE ncs_erp.employee (
-	empno   INT(11)     NOT NULL COMMENT '사원번호', -- 사원번호
-	empname VARCHAR(20) NOT NULL COMMENT '사원명', -- 사원명
-	title   INT(11)     NULL     COMMENT '직책', -- 직책
-	manager INT(11)     NULL     COMMENT '직속상사', -- 직속상사
-	salary  INT(11)     NULL     COMMENT '급여', -- 급여
-	dno     INT(11)     NULL     COMMENT '부서' -- 부서
+	empno     INT(11)     NOT NULL COMMENT '사원번호', -- 사원번호
+	empname   VARCHAR(20) NOT NULL COMMENT '사원명', -- 사원명
+	title     INT(11)     NULL     COMMENT '직책', -- 직책
+	manager   INT(11)     NULL     COMMENT '직속상사', -- 직속상사
+	salary    INT(11)     NULL     COMMENT '급여', -- 급여
+	gender    TINYINT(1)  NULL     COMMENT '성별', -- 성별
+	dno       INT(11)     NULL     COMMENT '부서', -- 부서
+	hire_date DATE        NULL     COMMENT '입사일' -- 입사일
 )
 COMMENT '사원';
 
@@ -36,6 +38,11 @@ ALTER TABLE ncs_erp.employee
 		PRIMARY KEY (
 			empno -- 사원번호
 		);
+
+-- fk_emp_dno
+CREATE INDEX fk_emp_dno
+	ON ncs_erp.employee( -- 사원
+	);
 
 -- 직책
 CREATE TABLE ncs_erp.title (
@@ -53,19 +60,6 @@ ALTER TABLE ncs_erp.title
 
 -- 사원
 ALTER TABLE ncs_erp.employee
-	ADD CONSTRAINT fk_emp_dno -- fk_emp_dno
-		FOREIGN KEY (
-			dno -- 부서
-		)
-		REFERENCES ncs_erp.department ( -- 부서
-			deptno -- 부서번호
-		),
-	ADD INDEX fk_emp_dno (
-		dno -- 부서
-	);
-
--- 사원
-ALTER TABLE ncs_erp.employee
 	ADD CONSTRAINT fk_emp_mgn -- fk_emp_mgn
 		FOREIGN KEY (
 			manager -- 직속상사
@@ -79,6 +73,16 @@ ALTER TABLE ncs_erp.employee
 
 -- 사원
 ALTER TABLE ncs_erp.employee
+	ADD CONSTRAINT FK_department_TO_employee -- 부서 -> 사원
+		FOREIGN KEY (
+			dno -- 부서
+		)
+		REFERENCES ncs_erp.department ( -- 부서
+			depno -- 부서번호
+		);
+
+-- 사원
+ALTER TABLE ncs_erp.employee
 	ADD CONSTRAINT FK_title_TO_employee -- 직책 -> 사원
 		FOREIGN KEY (
 			title -- 직책
@@ -87,9 +91,5 @@ ALTER TABLE ncs_erp.employee
 			tno -- 직책번호
 		);
 		
-	
 -- 계정과 권한부여
-grant all privileges
-on ncs_erp.* 
-to 'user_ncs_erp'@'localhost'
-identified by 'rootroot';
+grant all privileges on ncs_erp.* to 'user_ncs_erp'@'localhost' identified by 'rootroot';

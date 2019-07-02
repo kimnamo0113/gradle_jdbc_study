@@ -1,7 +1,7 @@
 package exam.dto;
 
 public class Title {
-	private String tno;
+	private int tno;
 	private String tname;
 	
 	
@@ -9,17 +9,23 @@ public class Title {
 		super();
 	}
 
-	public Title(String tno, String title) {
+	public Title(int tno, String title) {
 		super();
 		this.tno = tno;
 		this.tname = title;
 	}
+	
 
-	public String getTno() {
+
+	public Title(int tno) {
+		this.tno=tno;
+	}
+
+	public int getTno() {
 		return tno;
 	}
 
-	public void setTno(String tno) {
+	public void setTno(int tno) {
 		this.tno = tno;
 	}
 
@@ -33,7 +39,12 @@ public class Title {
 
 	@Override
 	public String toString() {
-		return tname;
+		return String.format("%s(%s)",tname, tno);
+	}
+
+	public Object[] toArray() {
+		String no=String.format("T%03d", tno);
+		return new Object[] {no,tname};
 	}
 
 

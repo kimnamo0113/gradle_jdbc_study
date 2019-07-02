@@ -1,24 +1,28 @@
 package exam.dto;
 
+import java.util.Date;
+
 public class Employee {
 	private int empNo;
 	private String empName;
-	private String title;
-	private Employee manager;
+	private Title title;
 	private int salary;
+	private int gender;
 	private Department dno;
-	public Employee() {
-	}
+	private Date hire_date;
+	
+	
 	public Employee(int empNo) {
 		this.empNo = empNo;
 	}
-	public Employee(int empNo, String empName, String title, Employee manager, int salary, Department dno) {
+	public Employee(int empNo, String empName, Title title, int salary, int gender, Department dno, Date hire_date) {
 		this.empNo = empNo;
 		this.empName = empName;
 		this.title = title;
-		this.manager = manager;
 		this.salary = salary;
+		this.gender = gender;
 		this.dno = dno;
+		this.hire_date = hire_date;
 	}
 	public int getEmpNo() {
 		return empNo;
@@ -32,17 +36,11 @@ public class Employee {
 	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
-	public String getTitle() {
+	public Title getTitle() {
 		return title;
 	}
-	public void setTitle(String title) {
+	public void setTitle(Title title) {
 		this.title = title;
-	}
-	public Employee getManager() {
-		return manager;
-	}
-	public void setManager(Employee manager) {
-		this.manager = manager;
 	}
 	public int getSalary() {
 		return salary;
@@ -50,11 +48,23 @@ public class Employee {
 	public void setSalary(int salary) {
 		this.salary = salary;
 	}
+	public int getGender() {
+		return gender;
+	}
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
 	public Department getDno() {
 		return dno;
 	}
 	public void setDno(Department dno) {
 		this.dno = dno;
+	}
+	public Date getHire_date() {
+		return hire_date;
+	}
+	public void setHire_date(Date hire_date) {
+		this.hire_date = hire_date;
 	}
 	@Override
 	public String toString() {
@@ -82,7 +92,7 @@ public class Employee {
 	}
 	
 	public Object[] toArray() {
-		return new Object[] { empNo, empName, title,manager.getEmpName()+"("+ manager.getEmpNo()+")", salary, dno.getDeptName()+"("+dno.getDeptNo()+")" };
+		return new Object[] { empNo, empName, title.getTname(), salary, gender, dno.getDeptName()+"("+dno.getDeptNo()+")",hire_date };
 	}
 	
 	

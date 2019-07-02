@@ -21,7 +21,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	
 	@Override
 	public List<Employee> selectEmployeeByAll() throws SQLException {
-		String sql = "SELECT empno, empname, title, manager, salary, dno FROM employee";
+		String sql = "SELECT empno, empname, title, manager, salary, gender, dno, hire_date FROM employee";
 		List<Employee> lists = null;
 		try(Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);

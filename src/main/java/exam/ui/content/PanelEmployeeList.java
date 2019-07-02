@@ -1,10 +1,14 @@
 package exam.ui.content;
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -15,11 +19,25 @@ import javax.swing.table.TableColumnModel;
 
 import exam.dto.Employee;
 
-public class PanelEmployeeList extends JPanel {
+@SuppressWarnings("serial")
+public class PanelEmployeeList extends JPanel implements ActionListener {
 	private JTable table;
 	private List<Employee> empList;
 
+	private JPopupMenu popupMenu;
+	private JMenuItem mntmPopUpdate;
+	private JMenuItem mntmPopDelete;
+	
 	public PanelEmployeeList() {
+popupMenu = new JPopupMenu();
+		mntmPopUpdate = new JMenuItem("수정");
+		mntmPopUpdate.addActionListener(this);
+		popupMenu.add(mntmPopUpdate);
+		
+		mntmPopDelete = new JMenuItem("삭제");
+		mntmPopDelete.addActionListener(this);
+		popupMenu.add(mntmPopDelete);
+		
 		setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -47,13 +65,11 @@ public class PanelEmployeeList extends JPanel {
 	}
 
 	public String[] getColumnNames() {
-		return new String[] { "사원번호", "사원명", "직책", "직속상사", "급여", "부서" };
+		return new String[] { "사원번호", "사원명", "직책", "급여", "성별", "부서","입사일"};
 	}
 
 	public void reloadData() {
 		table.setModel(new DefaultTableModel(getRows(), getColumnNames()));
-		revalidate();
-		repaint();
 
 		// 사원번호, 사원명, 직책, 직속상사, 부서정보 은 가운데 정렬
 		tableCellAlignment(SwingConstants.CENTER, 0, 1, 2, 3, 5);
@@ -81,6 +97,12 @@ public class PanelEmployeeList extends JPanel {
 		for (int i = 0; i < width.length; i++) {
 			cModel.getColumn(i).setPreferredWidth(width[i]);
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
