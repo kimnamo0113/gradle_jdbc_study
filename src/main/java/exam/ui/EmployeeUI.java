@@ -169,6 +169,7 @@ public class EmployeeUI extends JFrame implements ActionListener,ItemListener {
 			empList=empDao.selectEmployeeByAll();
 			panelList.setEmpList(empList);
 			panelList.reloadData();
+			btnAdd.setText("추가");
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -86,7 +86,7 @@ public class PanelEmployeeList extends JPanel implements ActionListener {
 		// 급여은 우측 정렬
 		tableCellAlignment(SwingConstants.RIGHT, 4);
 		// 부서번호, 부서명, 위치 의 폭을 (100, 200, 70)으로 가능하면 설정
-		tableSetWidth(150, 100, 150, 250, 200, 50, 150, 200);
+		tableSetWidth(150, 100, 150, 250, 200, 50, 180, 200);
 	}
 
 	// 테이블 셀 내용의 정렬

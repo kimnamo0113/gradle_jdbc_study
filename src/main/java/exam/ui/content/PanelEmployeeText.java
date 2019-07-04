@@ -185,13 +185,16 @@ public class PanelEmployeeText extends JPanel {
 	}
 	public void defaultNoText() {
 		int num=empList.get(empList.size()-1).getEmpNo()+1;
+		System.out.println(empList);
 		for(int i=0; i<empList.size(); i++) {
 			if(empList.get(i).getEmpNo()+1!=empList.get(i+1).getEmpNo()) {
 				num=empList.get(i).getEmpNo()+1;
 				break;
 			}
 		}
+		
 		String no=String.format("E%06d", num);
+		System.out.println(no);
 		textEno.setText(no+"");
 		textEmpName.setText("");
 		cmbTitle.setSelectedIndex(-1);
@@ -207,7 +210,7 @@ public class PanelEmployeeText extends JPanel {
 	public Employee getEmployee() {
 		
 		String strEno=textEno.getText().trim();
-		strEno=strEno.substring(1, 6);
+		strEno=strEno.substring(1, 7);
 		
 		int eno=Integer.parseInt(strEno);
 		String empName=textEmpName.getText().trim();

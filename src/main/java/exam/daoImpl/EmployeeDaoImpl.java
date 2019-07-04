@@ -23,7 +23,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 	@Override
 	public List<Employee> selectEmployeeByAll() throws SQLException {
-		String sql = "SELECT e1.empno, e1.empname, e1.title,e1.manager,e1.salary,e1.gender,e1.dno,e1.hire_date,e2.empname as mname,d.deptname,t.tname \r\n" + 
+		String sql = "SELECT e1.empno, e1.empname, e1.title,e1.manager,e1.salary,e1.gender,e1.dno,e1.hire_date,e2.empname as mname,d.deptname,t.tname,d.floor \r\n" + 
 				"from employee e1 \r\n" + 
 				"join employee e2 \r\n" + 
 				"on (e1.manager=e2.empno)\r\n" + 
@@ -48,13 +48,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	private Employee getEmployee(ResultSet rs) throws SQLException {
+		int floor=Integer.parseInt(rs.getString("floor"));
 		return new Employee(rs.getInt("empno"), 
 				            rs.getString("empname"), 
 				            new Title(rs.getInt("title"),rs.getString("tname")), 
 				            new Employee(rs.getInt("manager"),rs.getString("mname")),
 				            rs.getInt("salary"),
 				            rs.getInt("gender"),
-				            new Department(rs.getInt("dno"),rs.getString("deptname")),
+				            new Department(rs.getInt("dno"),rs.getString("deptname"),floor),
 				            rs.getDate("hire_date")); 
 	}
 

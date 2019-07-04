@@ -121,7 +121,7 @@ public class Employee {
 		}else
 			genderStr="여";
 		String no=String.format("E%06d", empNo); 
-		return new Object[] { no, empName, title,manager,  salary, genderStr, dno.getDeptName()+"("+dno.getDeptNo()+")",hire_date };
+		return new Object[] { no, empName, title,manager,  salary, genderStr, dno.getDeptName()+"("+dno.getFloor()+"층)",hire_date };
 	}
 	
 	

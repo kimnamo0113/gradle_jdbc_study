@@ -180,6 +180,7 @@ public class TitleUI extends JFrame implements ActionListener {
 			panelText.setTitleList(titleList);
 			defaultNoText();
 			panelList.reloadData();
+			btnAdd.setText("추가");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

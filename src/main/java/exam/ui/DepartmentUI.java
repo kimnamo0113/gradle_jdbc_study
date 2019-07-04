@@ -156,6 +156,7 @@ public class DepartmentUI extends JFrame implements ActionListener {
 			panelText.setDeptList(deptList);
 			defaultNoText();
 			panelList.reloadData();
+			btnAdd.setText("추가");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
