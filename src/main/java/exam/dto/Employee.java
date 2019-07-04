@@ -1,6 +1,10 @@
 package exam.dto;
 
+import java.sql.SQLException;
 import java.util.Date;
+
+import exam.dao.EmployeeDao;
+import exam.daoImpl.EmployeeDaoImpl;
 
 public class Employee {
 	private int empNo;
@@ -10,15 +14,29 @@ public class Employee {
 	private int gender;
 	private Department dno;
 	private Date hire_date;
+	private Employee manager;
 	
 	
+	public Employee getManager() {
+		return manager;
+	}
+	public void setManager(Employee manager) {
+		this.manager = manager;
+	}
 	public Employee(int empNo) {
 		this.empNo = empNo;
 	}
-	public Employee(int empNo, String empName, Title title, int salary, int gender, Department dno, Date hire_date) {
+	
+	
+	public Employee(int empNo, String empName) {
+		this.empNo = empNo;
+		this.empName = empName;
+	}
+	public Employee(int empNo, String empName, Title title,Employee manager, int salary, int gender, Department dno, Date hire_date) {
 		this.empNo = empNo;
 		this.empName = empName;
 		this.title = title;
+		this.manager=manager;
 		this.salary = salary;
 		this.gender = gender;
 		this.dno = dno;
@@ -68,6 +86,11 @@ public class Employee {
 	}
 	@Override
 	public String toString() {
+		/*
+		 * EmployeeDao empDao=new EmployeeDaoImpl(); Employee emp=new Employee(empNo);
+		 * try { emp=empDao.selectEmployeeByNo(emp); System.out.println(emp); } catch
+		 * (SQLException e) { e.printStackTrace(); }
+		 */
 		return String.format("%s(%s)",empName, empNo);
 	}
 	@Override
@@ -92,7 +115,13 @@ public class Employee {
 	}
 	
 	public Object[] toArray() {
-		return new Object[] { empNo, empName, title.getTname(), salary, gender, dno.getDeptName()+"("+dno.getDeptNo()+")",hire_date };
+		String genderStr="";
+		if(gender==1) {
+			genderStr="남";
+		}else
+			genderStr="여";
+		String no=String.format("E%06d", empNo); 
+		return new Object[] { no, empName, title,manager,  salary, genderStr, dno.getDeptName()+"("+dno.getDeptNo()+")",hire_date };
 	}
 	
 	

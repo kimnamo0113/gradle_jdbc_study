@@ -44,8 +44,20 @@ public class TitleDaoImpl implements TitleDao{
 	
 	@Override
 	public Title selectTitleByNo(Title title) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * from title where tno=?";
+		Title selTitle = new Title();
+		try(Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);){
+			pstmt.setInt(1, title.getTno());
+			log.trace(pstmt);
+			try(ResultSet rs = pstmt.executeQuery()){
+				if(rs.next()) {
+					selTitle = getTitle(rs);
+				}
+			}
+		}
+		System.out.println(selTitle);
+		return selTitle;
 	}
 
 	@Override

@@ -26,6 +26,8 @@ public class ErpMainPageUI extends JFrame implements ActionListener {
 	private PanelEmployeeList panelList;
 	private EmployeeUI empUI;
 	private EmployeeDao dao;
+	private DepartmentUI deptUI;
+	private TitleUI titleUI;
 	
 	public ErpMainPageUI() {
 		dao=new EmployeeDaoImpl();
@@ -68,16 +70,20 @@ public class ErpMainPageUI extends JFrame implements ActionListener {
 	protected void do_btnEmp_actionPerformed(ActionEvent e) {
 		if(empUI==null)
 			empUI = new EmployeeUI();
-		
+		empUI.defaultNoText();
 		empUI.setVisible(true);
 		
 	}
 	protected void do_btnDept_actionPerformed(ActionEvent e) {
-		DepartmentUI frame = new DepartmentUI();
-		frame.setVisible(true);
+		if(deptUI==null)
+			deptUI = new DepartmentUI();
+		deptUI.defaultNoText();
+		deptUI.setVisible(true);
 	}
 	protected void do_btnTitle_actionPerformed(ActionEvent e) {
-		TitleUI frame = new TitleUI();
-		frame.setVisible(true);
+		if(titleUI==null)
+			titleUI = new TitleUI();
+		titleUI.defaultNoText();
+		titleUI.setVisible(true);
 	}
 }

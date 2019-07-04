@@ -1,33 +1,35 @@
 package exam.ui.content;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import exam.dto.Department;
 import exam.dto.Employee;
 import exam.dto.Title;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
 public class PanelEmployeeText extends JPanel {
 	private JTextField textEno;
 	private JTextField textEmpName;
-	private JTextField textSalary;
-	private JTextField textGender;
-	private JTextField textDate;
 	
 	private List<Employee> empList;
 	private List<Department> deptList;
@@ -35,8 +37,21 @@ public class PanelEmployeeText extends JPanel {
 	
 	private JComboBox<Title> cmbTitle;
 	private JComboBox<Department> cmbDept;
+	private JComboBox<Employee> cmbMgn;
+	
+	private DefaultComboBoxModel<Department> deptCmbModel;
+	private DefaultComboBoxModel<Employee> mgnCmbModel;
+	private DefaultComboBoxModel<Title> titleCmbModel;
 	
 	
+	private SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
+	private JSpinner spSalary;
+	private JTextField textDate;
+	private SpinnerModel numberModel;
+	private SimpleDateFormat sf2;
+	private JRadioButton rdoMan;
+	private JRadioButton rdoGirl;
+	private final ButtonGroup selectedGender = new ButtonGroup();
 	
 	public void setEmpList(List<Employee> empList) {
 		this.empList=empList;
@@ -49,8 +64,6 @@ public class PanelEmployeeText extends JPanel {
 	}
 	
 	
-	
-	
 	public JTextField getTextEno() {
 		return textEno;
 	}
@@ -61,9 +74,7 @@ public class PanelEmployeeText extends JPanel {
 	}
 	
 	
-	public JComboBox<Title> getCmbTitle() {
-		return cmbTitle;
-	}
+	
 	public void setCmbTitle(JComboBox<Title> cmbTitle) {
 		this.cmbTitle = cmbTitle;
 	}
@@ -100,86 +111,165 @@ public class PanelEmployeeText extends JPanel {
 		cmbTitle = new JComboBox<Title>();
 		panel_1.add(cmbTitle);
 		
-		JLabel lblSalary = new JLabel("급여");
-		panel_1.add(lblSalary);
-		
-		textSalary = new JTextField();
-		textSalary.setColumns(10);
-		panel_1.add(textSalary);
-		
-		JLabel lblGender = new JLabel("성별");
-		panel_1.add(lblGender);
-		
-		textGender = new JTextField();
-		textGender.setColumns(10);
-		panel_1.add(textGender);
-		
 		JLabel lblDept = new JLabel("부서");
 		panel_1.add(lblDept);
 		
 		cmbDept = new JComboBox<Department>();
 		panel_1.add(cmbDept);
 		
+		JLabel lblManager = new JLabel("매니저");
+		panel_1.add(lblManager);
+		
+		cmbMgn = new JComboBox<>();
+		panel_1.add(cmbMgn);
+		
+		JLabel lblSalary = new JLabel("급여");
+		panel_1.add(lblSalary);
+		
+		
+		numberModel = new SpinnerNumberModel(1500000, 1000000, 5000000, 100000);
+		spSalary=new JSpinner(numberModel);
+		panel_1.add(spSalary);
+		
+		JLabel lblGender = new JLabel("성별");
+		panel_1.add(lblGender);
+		
+		JPanel panelGender = new JPanel();
+		panel_1.add(panelGender);
+		
+		rdoMan = new JRadioButton("남자",true);
+		selectedGender.add(rdoMan);
+		panelGender.add(rdoMan);
+		
+		rdoGirl = new JRadioButton("여자");
+		selectedGender.add(rdoGirl);
+		panelGender.add(rdoGirl);
+		
+		
+		
 		JLabel lblDay = new JLabel("입사일");
 		panel_1.add(lblDay);
+		
 		
 		textDate = new JTextField();
 		textDate.setColumns(10);
 		panel_1.add(textDate);
 		
+		
 	}
 
 	public void setting() {
-		int no=empList.get(empList.size()-1).getEmpNo()+1;
-		textEno.setText(no+"");
+		int num=0;
+		for(int i=0; i<empList.size(); i++) {
+			if(empList.get(i).getEmpNo()+1!=empList.get(i+1).getEmpNo()) {
+				num=empList.get(i).getEmpNo()+1;
+				break;
+			}
+		}
+		textEno.setText(num+"");
 		textEno.setEditable(false);
 		
 		DefaultComboBoxModel<Department> newDept = new DefaultComboBoxModel<Department>(new Vector<Department>(deptList));
 		cmbDept.setModel(newDept);
 		
+		DefaultComboBoxModel<Employee> newMgn = new DefaultComboBoxModel<Employee>(new Vector<Employee>(empList));
+		cmbMgn.setModel(newMgn);
+		
 		DefaultComboBoxModel<Title> newTitle = new DefaultComboBoxModel<Title>(new Vector<Title>(titleList));
 		cmbTitle.setModel(newTitle);
+		
+		Date date=new Date();
+		
+		textDate.setText(sf.format(date));
+		
+	}
+	public void defaultNoText() {
+		int num=empList.get(empList.size()-1).getEmpNo()+1;
+		for(int i=0; i<empList.size(); i++) {
+			if(empList.get(i).getEmpNo()+1!=empList.get(i+1).getEmpNo()) {
+				num=empList.get(i).getEmpNo()+1;
+				break;
+			}
+		}
+		String no=String.format("E%06d", num);
+		textEno.setText(no+"");
+		textEmpName.setText("");
+		cmbTitle.setSelectedIndex(-1);
+		cmbMgn.setSelectedIndex(-1);
+		spSalary.setValue(1500000);
+		
+		rdoMan.setSelected(true);
+		cmbDept.setSelectedIndex(-1);
+		Date date=new Date();
+		sf2 = new SimpleDateFormat("yyyy-MM-dd");
+		textDate.setText(sf2.format(date));
 	}
 	public Employee getEmployee() {
-		int eno=Integer.parseInt(textEno.getText().trim());
+		
+		String strEno=textEno.getText().trim();
+		strEno=strEno.substring(1, 6);
+		
+		int eno=Integer.parseInt(strEno);
 		String empName=textEmpName.getText().trim();
 		Title title=(Title) cmbTitle.getSelectedItem();
-		int salary=Integer.parseInt(textSalary.getText().trim());
-		int gender=Integer.parseInt(textGender.getText().trim());
+		Employee manager=(Employee)cmbMgn.getSelectedItem();
+		int salary=(int)spSalary.getValue();
+		
+		int gender;
+		if(rdoMan.isSelected()) {
+			gender=1;
+		}else {
+			gender=0;
+		}
 		Department dept=(Department)cmbDept.getSelectedItem();
 		String date = textDate.getText().trim();
-		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
+		
 		Date day = null;
 		try {
 			day=sf.parse(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return new Employee(eno,empName,title,salary,gender,dept,day);
+		return new Employee(eno,empName,title,manager,salary,gender,dept,day);
 	}
-	public void defaultNoText() {
-		textEno.setText(empList.get(empList.size()-1).getEmpNo()+1+"");
-		textEmpName.setText("");
-		cmbTitle.setSelectedItem(-1);
-		textSalary.setText("");
-		textGender.setText("");
-		cmbDept.setSelectedItem(-1);
-		Date date=new Date();
-		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
-		textDate.setText(sf.format(date));
-	}
+	
 	
 	public void setTextEmployee(Employee emp) {
-		textEno.setText(emp.getEmpNo()+"");
+		String no=String.format("E%06d", emp.getEmpNo()); 
+		textEno.setText(no+"");
 		textEmpName.setText(emp.getEmpName());
-		cmbTitle.setSelectedItem(-1);
-		textSalary.setText("");
-		textGender.setText("");
-		cmbDept.setSelectedItem(-1);
-		Date date=new Date();
-		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
-		textDate.setText(sf.format(date));
+		cmbTitle.setSelectedItem(emp.getTitle());
+		cmbMgn.setSelectedItem(emp.getManager());
+		spSalary.setValue(emp.getSalary());
+		if(emp.getGender()==1) {
+			rdoMan.setSelected(true);
+		}else {
+			rdoGirl.setSelected(true);
+		}
+		cmbDept.setSelectedItem(emp.getDno());
+		new SimpleDateFormat("yyyy-MM-dd");
+		textDate.setText(emp.getHire_date()+"");
 	}
 	
-
+	public JComboBox<Department> getCmbDept() {
+		return cmbDept;
+	}
+	public JComboBox<Employee> getCmbMgn() {
+		return cmbMgn;
+	}
+	public JComboBox<Title> getCmbTitle() {
+		return cmbTitle;
+	}
+	public void setCmbDeptModel(List<Department> deptList) {
+		deptCmbModel = new DefaultComboBoxModel<Department>(new Vector<Department>(deptList));
+		cmbDept.setModel(deptCmbModel);
+	}
+	public void setCmbMgnModel(List<Employee> mgnList) {
+		mgnCmbModel = new DefaultComboBoxModel<Employee>(new Vector<Employee>(mgnList));
+		cmbMgn.setModel(mgnCmbModel);
+	}
+	public void setTitleCmbModel(List<Employee> empList) {
+		titleCmbModel = new DefaultComboBoxModel<Title>(new Vector<Title>(titleList));
+		cmbTitle.setModel(titleCmbModel);
+	}
 }

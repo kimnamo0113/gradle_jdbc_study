@@ -5,11 +5,11 @@ import java.awt.GridLayout;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import exam.dto.Title;
-import exam.ui.TitleUI;
 
 @SuppressWarnings("serial")
 public class PanelTitleText extends JPanel{
@@ -34,8 +34,15 @@ public class PanelTitleText extends JPanel{
 		textTname.setText(value);
 	}
 	public void defaultNoText() {
-		int number=titleList.get(titleList.size()-1).getTno()+1;
-		String no=String.format("T%03d", number);
+		int num=titleList.get(titleList.size()-1).getTno()+1;
+		for(int i=0; i<titleList.size()-1; i++) {
+			if(titleList.get(i).getTno()+1!=titleList.get(i+1).getTno()) {
+				num=titleList.get(i).getTno()+1;
+				break;
+			}
+		}
+		
+		String no=String.format("T%03d", num);
 		textTno.setText(no);
 		textTname.setText("");
 	}

@@ -1,10 +1,14 @@
 package exam.ui;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,10 +25,9 @@ import exam.dto.Employee;
 import exam.dto.Title;
 import exam.ui.content.PanelEmployeeList;
 import exam.ui.content.PanelEmployeeText;
-import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class EmployeeUI extends JFrame {
+public class EmployeeUI extends JFrame implements ActionListener,ItemListener {
 	private JPanel contentPane;
 	
 	private EmployeeDao empDao;
@@ -45,27 +48,31 @@ public class EmployeeUI extends JFrame {
 		empDao=new EmployeeDaoImpl();
 		deptDao=new DepartmentDaoImpl();
 		titleDao=new TitleDaoImpl();
+		
 		initComponents();
 	}
 	
 	
 	public void initComponents() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 445, 511);
+		setBounds(100, 100, 494, 619);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		panelText = new PanelEmployeeText();
-		panelText.setBounds(5, 5, 419, 157);
+		panelText.setBounds(5, 5, 473, 280);
 		
-		
+		panelText.getCmbMgn().addItemListener(this);
+		panelText.getCmbDept().addItemListener(this);
+		panelText.getCmbTitle().addItemListener(this);
 		
 		contentPane.add(panelText);
 		
 		panelList = new PanelEmployeeList();
-		panelList.setBounds(5, 194, 419, 268);
+		panelList.setParent(this);
+		panelList.setBounds(5, 318, 473, 262);
 		try {
 			empList=empDao.selectEmployeeByAll();
 			deptList=deptDao.selectDepartmentByAll();
@@ -80,16 +87,19 @@ public class EmployeeUI extends JFrame {
 		panelText.setDeptList(deptList);
 		panelText.setTitleList(titleList);
 		panelText.setting();
+		panelText.defaultNoText();
 		contentPane.add(panelList);
 		
 		panel = new JPanel();
-		panel.setBounds(5, 161, 419, 33);
+		panel.setBounds(5, 284, 473, 33);
 		contentPane.add(panel);
 		
 		btnAdd = new JButton("추가");
+		btnAdd.addActionListener(this);
 		panel.add(btnAdd);
 		
 		btnCancel = new JButton("취소");
+		btnCancel.addActionListener(this);
 		panel.add(btnCancel);
 	}
 	
@@ -106,7 +116,6 @@ public class EmployeeUI extends JFrame {
 	}
 	private void actionPerformedBtnUpdate(ActionEvent e) {
 		
-		
 		Employee emp=panelText.getEmployee();
 		try {
 			int res=empDao.updateEmployee(emp);
@@ -121,9 +130,16 @@ public class EmployeeUI extends JFrame {
 		}
 		panelText.setEmpList(empList);
 		panelText.defaultNoText();
-		
+		btnAdd.setText("추가");
 	}
 	protected void actionPerformedBtnCancel(ActionEvent e) {
+		try {
+			empList=empDao.selectEmployeeByAll();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		panelText.setEmpList(empList);
 		panelText.defaultNoText();
 		btnAdd.setText("추가");
 	}
@@ -136,31 +152,57 @@ public class EmployeeUI extends JFrame {
 			empList=empDao.selectEmployeeByAll();
 			panelList.setEmpList(empList);
 			panelText.setEmpList(empList);
-			panelText.defaultNoText();
 			panelList.reloadData();
-			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		panelText.defaultNoText();
 	}
 	public void popupUpdate(Employee emp) {
 		panelText.setTextEmployee(emp);
 		btnAdd.setText("수정");
 	}
-	public void popupDelete(Department dept) {
+	public void popupDelete(Employee emp) {
 		try {
-			deptDao.deleteDepartment(dept);
-			deptList=deptDao.selectDepartmentByAll();
-			panelList.setDeptList(deptList);
+			empDao.deleteEmployee(emp);
+			empList=empDao.selectEmployeeByAll();
+			panelList.setEmpList(empList);
 			panelList.reloadData();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		panelText.setEmpList(empList);
+		panelText.defaultNoText();
+		
 	}
-
 	
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if(e.getItem() instanceof Department) {
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+				Department dept = (Department) e.getItem();
+				List<Employee> empList = new Vector<Employee>();
+				empList=deptDao.selectDeptNo(dept);
+				panelText.setCmbMgnModel(empList);
+			}
+		}
+		if(e.getItem() instanceof Title) {
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+				Title emp = (Title) e.getItem();
+			}
+		}
+		if(e.getItem() instanceof Employee) {
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+				Employee emp = (Employee) e.getItem();
+			}
+		}
+	}
+	public void defaultNoText() {
+		panelText.defaultNoText();
+	}
 	
 
 }

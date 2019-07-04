@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import exam.dao.DepartmentDao;
 import exam.dto.Department;
 import exam.dto.Employee;
+import exam.dto.Title;
 import gradle_jdbc_study.jdbc.ConnectionProvider;
 
 public class DepartmentDaoImpl implements DepartmentDao {
@@ -25,7 +26,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);
-				ResultSet rs = pstmt.executeQuery()) {
+				ResultSet rs = pstmt.executeQuery(
+						
+						)) {
 			log.trace(pstmt);
 
 			while (rs.next()) {
@@ -110,8 +113,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
 	@Override
 	public List<Employee> selectDeptNo(Department dept) {
-		List<Employee> lists = new ArrayList<Employee>();
-		String sql = "select * from employee where dno=?";
+		List<Employee> lists=new ArrayList<Employee>();
+		String sql="select * from employee where dno=?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -121,28 +124,36 @@ public class DepartmentDaoImpl implements DepartmentDao {
 			pstmt.setInt(1, dept.getDeptNo());
 			log.trace(pstmt);
 			rs = pstmt.executeQuery();
-			while (rs.next()) {
+			while(rs.next()) {
 				lists.add((getEployee(rs)));
 			}
-		} catch (SQLException e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
-		} finally {
+		}finally {
 			try {
 				rs.close();
 				pstmt.close();
 				conn.close();
-			} catch (Exception e) {
+			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
-
+		
 		return lists;
 	}
 
 	@Override
 	public Employee getEployee(ResultSet rs) throws SQLException {
-		return new Employee(rs.getInt("empno"), rs.getString("empname"), rs.getString("title"),
-				new Employee(rs.getInt("manager")), rs.getInt("salary"), new Department(rs.getInt("dno")),
-				rs.getBytes("pic"));
+		return new Employee(rs.getInt("empno"), 
+	            rs.getString("empname"), 
+	            new Title(rs.getInt("title")), 
+	            new Employee(rs.getInt("manager")),
+	            rs.getInt("salary"),
+	            rs.getInt("gender"),
+	            new Department(rs.getInt("dno")),
+	            rs.getDate("hire_date")); 
 	}
 }
+
+
+

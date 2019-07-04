@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
@@ -17,7 +18,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import exam.dto.Department;
 import exam.dto.Employee;
+import exam.ui.EmployeeUI;
 
 @SuppressWarnings("serial")
 public class PanelEmployeeList extends JPanel implements ActionListener {
@@ -28,8 +31,14 @@ public class PanelEmployeeList extends JPanel implements ActionListener {
 	private JMenuItem mntmPopUpdate;
 	private JMenuItem mntmPopDelete;
 	
+	private EmployeeUI empUI;
+	
+	public void setParent(EmployeeUI empUI) {
+		this.empUI = empUI;
+	}
+
 	public PanelEmployeeList() {
-popupMenu = new JPopupMenu();
+		popupMenu = new JPopupMenu();
 		mntmPopUpdate = new JMenuItem("수정");
 		mntmPopUpdate.addActionListener(this);
 		popupMenu.add(mntmPopUpdate);
@@ -44,6 +53,7 @@ popupMenu = new JPopupMenu();
 		add(scrollPane);
 
 		table = new JTable();
+		table.setComponentPopupMenu(popupMenu);
 		scrollPane.setViewportView(table);
 
 	}
@@ -65,7 +75,7 @@ popupMenu = new JPopupMenu();
 	}
 
 	public String[] getColumnNames() {
-		return new String[] { "사원번호", "사원명", "직책", "급여", "성별", "부서","입사일"};
+		return new String[] { "사원번호", "사원명", "직책","매니저", "급여", "성별", "부서","입사일"};
 	}
 
 	public void reloadData() {
@@ -76,7 +86,7 @@ popupMenu = new JPopupMenu();
 		// 급여은 우측 정렬
 		tableCellAlignment(SwingConstants.RIGHT, 4);
 		// 부서번호, 부서명, 위치 의 폭을 (100, 200, 70)으로 가능하면 설정
-		tableSetWidth(70, 100, 70, 100, 120, 100);
+		tableSetWidth(150, 100, 150, 250, 200, 50, 150, 200);
 	}
 
 	// 테이블 셀 내용의 정렬
@@ -101,8 +111,16 @@ popupMenu = new JPopupMenu();
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		int i = table.getSelectedRow();
+		JOptionPane.showMessageDialog(null, "i="+i);
+		Employee title=empList.get(i);
+		if (e.getSource() == mntmPopUpdate) {
+			empUI.popupUpdate(title);
+		}
+		if (e.getSource() == mntmPopDelete) {
+			
+			empUI.popupDelete(title);
+		}
 	}
 
 }

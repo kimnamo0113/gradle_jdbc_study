@@ -14,6 +14,10 @@ public class Department {
 		this.deptName = deptName;
 		this.floor = floor;
 	}
+	public Department(int dno, String deptName) {
+		this.deptNo=dno;
+		this.deptName=deptName;
+	}
 	public int getDeptNo() {
 		return deptNo;
 	}

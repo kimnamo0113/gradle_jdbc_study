@@ -50,8 +50,14 @@ public class PanelDepartmentText extends JPanel {
 	}
 	
 	public void defaultNoText() {
-		int number=deptList.get(deptList.size()-1).getDeptNo()+1;
-		String no=String.format("T%03d", number);
+		int num=deptList.get(deptList.size()-1).getDeptNo()+1;
+		for(int i=0; i<deptList.size()-1; i++) {
+			if(deptList.get(i).getDeptNo()+1!=deptList.get(i+1).getDeptNo()) {
+				num=deptList.get(i).getDeptNo()+1;
+				break;
+			}
+		}
+		String no=String.format("T%03d", num);
 		textDno.setText(no);
 		textDeptName.setText("");
 		textFloor.setText("");
@@ -99,11 +105,5 @@ public class PanelDepartmentText extends JPanel {
 	public void setDeptNoAble(boolean b) {
 		textDno.setEditable(b);
 	}
-	public void setting() {
-		int defaultNo=deptList.get(deptList.size()-1).getDeptNo()+1;
-		String result_no = String.format("D%03d", defaultNo);
-		textDno.setText(result_no);
-	}
-	
 
 }

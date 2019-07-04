@@ -137,12 +137,13 @@ public class TitleUI extends JFrame implements ActionListener {
 		}
 		panelText.setTitleList(titleList);
 		panelText.defaultNoText();
+		btnAdd.setText("추가");
 	}
 
 
 
 	protected void actionPerformedBtnCancel(ActionEvent e) {
-		panelText.defaultNoText();
+		defaultNoText();
 		panelText.setTextTname("");
 		btnAdd.setText("추가");
 	}
@@ -161,7 +162,7 @@ public class TitleUI extends JFrame implements ActionListener {
 			titleList=titleDao.selectTitleByAll();
 			panelList.setTitleList(titleList);
 			panelText.setTitleList(titleList);
-			panelText.defaultNoText();
+			defaultNoText();
 			panelList.reloadData();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -176,9 +177,10 @@ public class TitleUI extends JFrame implements ActionListener {
 			titleDao.deleteTitle(title);
 			titleList=titleDao.selectTitleByAll();
 			panelList.setTitleList(titleList);
+			panelText.setTitleList(titleList);
+			defaultNoText();
 			panelList.reloadData();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -190,6 +192,12 @@ public class TitleUI extends JFrame implements ActionListener {
 		panelText.setTextTname(title.getTname());
 		panelText.setTextTno(strTno);
 		btnAdd.setText("수정");
+	}
+
+
+
+	public void defaultNoText() {
+		panelText.defaultNoText();
 	}
 	
 	

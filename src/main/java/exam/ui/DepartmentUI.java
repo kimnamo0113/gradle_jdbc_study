@@ -58,7 +58,7 @@ public class DepartmentUI extends JFrame implements ActionListener {
 		panelList.reloadData();
 		panelList.setDeptUI(this);
 		panelText.setDeptList(deptList);
-		panelText.setting();
+		panelText.defaultNoText();
 		panelText.setDeptNoAble(false);
 		
 		
@@ -97,6 +97,7 @@ public class DepartmentUI extends JFrame implements ActionListener {
 		int dno=Integer.parseInt(strTno);
 		String dname=panelText.getTextDeptName().getText();
 		int floor=Integer.parseInt(panelText.getTextFloor().getText());
+		
 		Department dept=new Department(dno,dname,floor);
 		try {
 			int res=deptDao.updateDepartment(dept);
@@ -111,11 +112,10 @@ public class DepartmentUI extends JFrame implements ActionListener {
 		}
 		panelText.setDeptList(deptList);
 		panelText.defaultNoText();
-		
+		btnAdd.setText("추가");
 	}
 	protected void actionPerformedBtnCancel(ActionEvent e) {
 		panelText.defaultNoText();
-		panelText.setTextDeptName("");
 		btnAdd.setText("추가");
 	}
 	protected void actionPerformedBtnAdd(ActionEvent e) {
@@ -153,10 +153,15 @@ public class DepartmentUI extends JFrame implements ActionListener {
 			deptDao.deleteDepartment(dept);
 			deptList=deptDao.selectDepartmentByAll();
 			panelList.setDeptList(deptList);
+			panelText.setDeptList(deptList);
+			defaultNoText();
 			panelList.reloadData();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public void defaultNoText() {
+		panelText.defaultNoText();
 	}
 }
