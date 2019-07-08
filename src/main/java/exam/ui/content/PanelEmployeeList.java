@@ -67,7 +67,15 @@ public class PanelEmployeeList extends JPanel implements ActionListener {
 	}
 
 	public Object[][] getRows() {
-		Object[][] rows = new Object[empList.size()][];
+		Object[][] rows = null;
+		System.out.println(empList);
+		if(empList!=null) {
+			rows = new Object[empList.size()][];
+		}else {
+			return rows=new Object[0][];
+		}
+		
+		
 		for (int i = 0; i < empList.size(); i++) {
 			rows[i] = empList.get(i).toArray();
 		}

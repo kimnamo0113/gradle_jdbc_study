@@ -24,17 +24,27 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	@Override
 	public List<Employee> selectEmployeeByAll() throws SQLException {
 		String sql = "SELECT e1.empno, e1.empname, e1.title,e1.manager,e1.salary,e1.gender,e1.dno,e1.hire_date,e2.empname as mname,d.deptname,t.tname,d.floor \r\n" + 
-				"from employee e1 \r\n" + 
-				"join employee e2 \r\n" + 
-				"on (e1.manager=e2.empno)\r\n" + 
-				"join department d\r\n" + 
-				"on (e1.dno=d.deptno)\r\n" + 
-				"join title t\r\n" + 
-				"on (e1.title=t.tno)";
+				"				from employee e1 \r\n" + 
+				"				join employee e2\r\n" + 
+				"				on (e1.manager=e2.empno) \r\n" + 
+				"				join department d \r\n" + 
+				"				on (e1.dno=d.deptno) \r\n" + 
+				"				join title t \r\n" + 
+				"				on (e1.title=t.tno)\r\n" + 
+				"			union\r\n" + 
+				"SELECT e1.empno, e1.empname, e1.title,e1.manager,e1.salary,e1.gender,e1.dno,e1.hire_date,null,d.deptname,t.tname,d.floor \r\n" + 
+				"				from employee e1 \r\n" + 
+				"				join department d \r\n" + 
+				"				on (e1.dno=d.deptno) \r\n" + 
+				"				join title t \r\n" + 
+				"				on (e1.title=t.tno)\r\n" + 
+				"				where e1.manager is null;";
 		List<Employee> lists = null;
 		try(Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);
-				ResultSet rs = pstmt.executeQuery()){
+				
+				ResultSet rs = pstmt.executeQuery()
+				){
 			log.trace(pstmt);
 			if (rs.next()) {
 				lists = new ArrayList<Employee>();
@@ -89,7 +99,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			pstmt.setInt(1, employee.getEmpNo());
 			pstmt.setString(2, employee.getEmpName());
 			pstmt.setInt(3, employee.getTitle().getTno());
-			pstmt.setInt(4, employee.getManager().getEmpNo());
+			if(employee.getManager()!=null)
+				pstmt.setInt(4, employee.getManager().getEmpNo());
+			else
+				pstmt.setString(4, null);
 			pstmt.setInt(5, employee.getSalary());
 			pstmt.setInt(6, employee.getGender());
 			pstmt.setInt(7, employee.getDno().getDeptNo());

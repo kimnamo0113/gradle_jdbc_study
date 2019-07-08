@@ -24,6 +24,8 @@ public class ErpMainPageUI extends JFrame implements ActionListener {
 	private JButton btnDept;
 	private JButton btnTitle;
 	private PanelEmployeeList panelList;
+	
+	
 	private EmployeeUI empUI;
 	private EmployeeDao dao;
 	private DepartmentUI deptUI;

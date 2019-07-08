@@ -160,6 +160,7 @@ public class PanelEmployeeText extends JPanel {
 
 	public void setting() {
 		int num=0;
+		if(empList!=null)
 		for(int i=0; i<empList.size(); i++) {
 			if(empList.get(i).getEmpNo()+1!=empList.get(i+1).getEmpNo()) {
 				num=empList.get(i).getEmpNo()+1;
@@ -171,10 +172,10 @@ public class PanelEmployeeText extends JPanel {
 		
 		DefaultComboBoxModel<Department> newDept = new DefaultComboBoxModel<Department>(new Vector<Department>(deptList));
 		cmbDept.setModel(newDept);
-		
+		if(empList!=null) {
 		DefaultComboBoxModel<Employee> newMgn = new DefaultComboBoxModel<Employee>(new Vector<Employee>(empList));
 		cmbMgn.setModel(newMgn);
-		
+		}
 		DefaultComboBoxModel<Title> newTitle = new DefaultComboBoxModel<Title>(new Vector<Title>(titleList));
 		cmbTitle.setModel(newTitle);
 		
@@ -184,7 +185,9 @@ public class PanelEmployeeText extends JPanel {
 		
 	}
 	public void defaultNoText() {
-		int num=empList.get(empList.size()-1).getEmpNo()+1;
+		int num;
+		if(empList!=null) {
+		num=empList.get(empList.size()-1).getEmpNo()+1;
 		System.out.println(empList);
 		for(int i=0; i<empList.size(); i++) {
 			if(empList.get(i).getEmpNo()+1!=empList.get(i+1).getEmpNo()) {
@@ -192,10 +195,14 @@ public class PanelEmployeeText extends JPanel {
 				break;
 			}
 		}
-		
+		}else {
+			num=0;
+		}
 		String no=String.format("E%06d", num);
+		
 		System.out.println(no);
 		textEno.setText(no+"");
+		
 		textEmpName.setText("");
 		cmbTitle.setSelectedIndex(-1);
 		cmbMgn.setSelectedIndex(-1);
